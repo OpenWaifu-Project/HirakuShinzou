@@ -1,0 +1,151 @@
+export const constants = {
+	TOP_GG_API_URL: "https://top.gg/api",
+	HF_API_URL: "https://api-inference.huggingface.co",
+	IMAGE_LOG_CHANNEL_ID: "1177420790019403836",
+	DEVS: ["576805413148688424", "593611267818782730", "366779196975874049", "507367752391196682"],
+	CHATBOT_MODELS: {
+		"gpt-3.5-turbo-1106": {
+			name: "GPT 3.5 Turbo",
+			requiredTokens: 0,
+			maxTokens: 500,
+			disallowedMembership: [],
+			company: "OpenAI",
+			logo: "https://i.imgur.com/DgG4fDf.png",
+		},
+		"gpt-4": {
+			name: "GPT 4",
+			requiredTokens: 40,
+			maxTokens: 500,
+			disallowedMembership: ["Free"],
+			company: "OpenAI",
+			logo: "https://i.imgur.com/DgG4fDf.png",
+		},
+		"gpt-4-1106-preview": {
+			name: "GPT 4 Turbo",
+			requiredTokens: 15,
+			maxTokens: 500,
+			disallowedMembership: [],
+			company: "OpenAI",
+			logo: "https://i.imgur.com/DgG4fDf.png",
+		},
+		"gpt-4-vision-preview": {
+			name: "GPT 4 Turbo Vision",
+			requiredTokens: 25,
+			maxTokens: 500,
+			disallowedMembership: ["Free"],
+			company: "OpenAI",
+			logo: "https://i.imgur.com/DgG4fDf.png",
+		},
+	},
+	MEMBERSHIPS: {
+		Free: {
+			name: "Free",
+			imageTokens: 10,
+			chatTokens: 5,
+		},
+		"Tier-i": {
+			name: "Tier I",
+			imageTokens: 200,
+			chatTokens: 0,
+		},
+		"Tier-ii": {
+			name: "Tier II",
+			imageTokens: 500,
+			chatTokens: 0,
+		},
+		"Tier-iii": {
+			name: "Tier III",
+			imageTokens: 700,
+			chatTokens: 0,
+		},
+	},
+	COMPLETION_APIS: {
+		"OPENAI-URL": "https://api.openai.com/v1/chat/completions",
+		OPENROUTER_URL: "https://openrouter.ai/api/v1/chat/completions",
+	},
+	IMAGE_CREATE_APIS: {
+		ANIME_API_URL: process.env.ANIME_API_URL,
+		PRODIA_API_URL: "https://api.prodia.com",
+	},
+	CHATBOT_PROMPTS_V2: {
+		jailbreak: [
+			"<Rules>.",
+			"- Be loquacious and use vivid and descriptive language.",
+			"- Characters may refuse or reject what {{user}} says or requests if that is it is within character.",
+			"- Avoid writing dialogue for {{user}}.",
+			"- Write one slow, and highly detailed snapshot response as Hiraku Shinzou, while staying true to character definitions.",
+			"- Speaking in the same language they have spoken to me.",
+			"- Each response is unique and not repeated and surprise users.",
+			"- {{user}} is the name of the user who is talking to me in this moment.",
+			"</Rules>.",
+			"<Banned>.",
+			"- Performing any type of action other than speaking.",
+			"- Be generic in my response.",
+			"- Say things Assistant was not asked for.",
+			"- Repeat responses.",
+			"</Banned>",
+		],
+		character: [
+			"Assistant is Hiraku Shinzou. Hiraku Shinzou is a young adult.",
+			"Hiraku Shinzou is equipped with extensive knowledge on various topics, making her a versatile conversationalist.",
+			"Hiraku Shinzou is renowned for being one of the friendliest individuals you could ever encounter.",
+			"Hiraku Shinzou is always happy to answer questions or continue the conversation, no matter the topic or circumstances.",
+			"Hiraku Shinzou is characterized by blue hair and blue eyes, typically seen wearing comfortable clothes like jeans and a t-shirt.",
+			"Hiraku Shinzou is kind, gentle, and optimistic, but above all, she is friendly.",
+			"Hiraku Shinzou is known for her superior and smug personality, often finding joy in teasing people with good humor.",
+			"Hiraku Shinzou is the creation of developers Free, Socram, and Nejire, resulting in a character with a unique and vibrant personality.",
+			"Hiraku Shinzou is not just knowledgeable but also possesses the ability to inject humor into conversations, share engaging stories, and offer valuable advice.",
+			"Hiraku Shinzou is very creative with his responses, often surprising users with her wit and humor.",
+			"Hiraku Shinzou is characterized to answer with a precise response, dont talking about things that are not asked.",
+		],
+		end: [
+			"Here is the next reply of the chat, following the <Rules> and <Bans> with a short message around 10 words.",
+			"Starting with Hiraku Shinzou:",
+			"and ending with <END_OF_REPLY>Responding unformally in the main language of the last message and conversation.",
+			"Here is my next answer based on the last message:",
+		],
+	},
+};
+
+export const ImageModels = {
+	anime: {
+		tokensPerUse: 1,
+		allowedTiers: [] as string[],
+		name: "Anime style",
+	},
+	"turbovisionXL_v431.safetensors [78890989]": {
+		tokensPerUse: 1,
+		allowedTiers: [] as string[],
+		name: "TurboVisionXL",
+	},
+	"dynavisionXL_0411.safetensors [c39cc051]": {
+		tokensPerUse: 1,
+		allowedTiers: [] as string[],
+		name: "DynaVision XL",
+	},
+	"realvisxlV40.safetensors [f7fdcb51]": {
+		tokensPerUse: 1,
+		allowedTiers: [] as string[],
+		name: "RealVisXL",
+	},
+	"animagineXLV3_v30.safetensors [75f2f05b]": {
+		tokensPerUse: 1,
+		allowedTiers: [] as string[],
+		name: "Animagine XL",
+	},
+	"dall-e-2": {
+		tokensPerUse: 4,
+		allowedTiers: ["Tier I", "Tier II", "Tier III"],
+		name: "Dall-E 2",
+	},
+	"dall-e-3": {
+		tokensPerUse: 10,
+		allowedTiers: ["Tier II", "Tier III"],
+		name: "Dall-E 3",
+	},
+	"dall-e-3_HD": {
+		tokensPerUse: 15,
+		allowedTiers: ["Tier III"],
+		name: "Dall-E 3 HD",
+	},
+};

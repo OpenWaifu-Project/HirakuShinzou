@@ -1,0 +1,28 @@
+{
+  "name": "hiraku",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "biome lint apps/ packages/",
+    "format": "biome format --write apps/ packages/",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "biome lint app/ packages/",
+      "biome format --write app/ packages/"
+    ]
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.6.4",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "turbo": "^1.13.2",
+    "typescript": "^5.4.5"
+  },
+  "packageManager": "pnpm@8.9.0",
+  "engines": {
+    "node": ">=18"
+  }
+}

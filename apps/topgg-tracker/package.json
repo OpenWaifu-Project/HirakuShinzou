@@ -1,0 +1,21 @@
+{
+  "name": "topgg-tracker",
+  "scripts": {
+		"start": "dotenv -e .env -- node dist/index.js",
+		"build": "tsc",
+		"dev": "dotenv -e .env -- node dist/index.js",
+		"lint": "eslint src/",
+		"lint:fix": "eslint --fix src/"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.3.5",
+    "@types/node": "^20.11.5",
+    "seyfert": "github:potoland/potocuit#master",
+    "dotenv": "^16.3.1",
+    "hono": "^3.12.5",
+    "mongoose": "^8.1.0",
+    "zod": "^3.22.4",
+    "@repo/database": "workspace:*",
+    "dotenv-cli": "^7.3.0"
+  }
+}
