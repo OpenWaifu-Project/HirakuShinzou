@@ -88,32 +88,32 @@ importers:
   apps/topgg-tracker:
     dependencies:
       '@hono/node-server':
-        specifier: ^1.4.1
-        version: 1.5.0
+        specifier: ^1.11.1
+        version: 1.11.1
       '@repo/database':
         specifier: workspace:*
         version: link:../../packages/database
       '@types/node':
-        specifier: ^20.11.5
-        version: 20.11.6
+        specifier: ^20.12.7
+        version: 20.12.7
       dotenv:
-        specifier: ^16.3.1
-        version: 16.4.0
+        specifier: ^16.4.5
+        version: 16.4.5
       dotenv-cli:
-        specifier: ^7.3.0
-        version: 7.3.0
+        specifier: ^7.4.1
+        version: 7.4.1
       hono:
-        specifier: ^3.12.5
-        version: 3.12.7
+        specifier: ^3.12.12
+        version: 3.12.12
       mongoose:
-        specifier: ^8.1.0
-        version: 8.1.0
+        specifier: ^8.3.2
+        version: 8.3.2
       seyfert:
         specifier: github:potoland/potocuit#master
         version: paragonjs@https://codeload.github.com/potoland/potocuit/tar.gz/7567398478fd031cd3c2c224ee88088f0da1060d
       zod:
-        specifier: ^3.22.4
-        version: 3.22.4
+        specifier: ^3.23.4
+        version: 3.23.4
 
   packages/bull:
     dependencies:
@@ -223,8 +223,8 @@ packages:
     resolution: {integrity: sha512-Cm4uJX1sKarpm1mje/MiOIinM7zdUUrQp/5/qGPAgznbdd/B9zup5ehT6c1qGqycFcSopTA1J1HpqHS5kJR8hQ==}
     engines: {node: '>=18.0.0'}
 
-  '@hono/node-server@1.5.0':
-    resolution: {integrity: sha512-xMZW2tuHLdUtx5B28E5bsLazJe9NVU2z4QW/Xefgvg41U84r4L1mTxNutTMNwt6BrRujy7hs1aKyUpIuSqcXtQ==}
+  '@hono/node-server@1.11.1':
+    resolution: {integrity: sha512-GW1Iomhmm1o4Z+X57xGby8A35Cu9UZLL7pSMdqDBkD99U5cywff8F+8hLk5aBTzNubnsFAvWQ/fZjNwPsEn9lA==}
     engines: {node: '>=18.14.1'}
 
   '@ioredis/commands@1.2.0':
@@ -279,9 +279,6 @@ packages:
   '@types/node@20.11.24':
     resolution: {integrity: sha512-Kza43ewS3xoLgCEpQrsT+xRo/EJej1y0kVYGiLFE1NEODXGzTfwiC6tXTLMQskn1X4/Rjlh0MQUvx9W+L9long==}
 
-  '@types/node@20.11.6':
-    resolution: {integrity: sha512-+EOokTnksGVgip2PbYbr3xnR7kZigh4LbybAfBAw5BpnQ+FqBYUsvCEjYd70IXKlbohQ64mzEYmMtlWUY8q//Q==}
-
   '@types/node@20.12.7':
     resolution: {integrity: sha512-wq0cICSkRLVaf3UGLMGItu/PtdY7oaXaI/RVU+xliKVOtRna3PRY57ZDfztpDL0n11vfymMUnXv8QwYCO7L1wg==}
 
@@ -329,10 +326,6 @@ packages:
   braces@3.0.2:
     resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
     engines: {node: '>=8'}
-
-  bson@6.2.0:
-    resolution: {integrity: sha512-ID1cI+7bazPDyL9wYy9GaQ8gEEohWvcUl/Yf0dIdutJxnmInEEyCsb4awy/OiBfall7zBA179Pahi3vCdFze3Q==}
-    engines: {node: '>=16.20.1'}
 
   bson@6.4.0:
     resolution: {integrity: sha512-6/gSSEdbkuFlSb+ufj5jUSU4+wo8xQOwm2bDSqwmxiPE17JTpsP63eAwoN8iF8Oy4gJYj+PAL3zdRCTdaw5Y1g==}
@@ -413,9 +406,6 @@ packages:
     resolution: {integrity: sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw==}
     engines: {node: '>=0.10'}
 
-  discord-api-types@0.37.79:
-    resolution: {integrity: sha512-jblKMZL5f9t/pfUyhHNey8Lb9yVCcBVIPxz/JTY0raAmfj7CuFXdl9m5o/+iiB7E0vv1Kz9V7Ao5HtLRc2gH1Q==}
-
   discord-api-types@0.37.83:
     resolution: {integrity: sha512-urGGYeWtWNYMKnYlZnOnDHm8fVRffQs3U0SpE8RHeiuLKb/u92APS8HoQnPTFbnXmY1vVnXjXO4dOxcAn3J+DA==}
 
@@ -429,10 +419,6 @@ packages:
 
   dotenv-expand@10.0.0:
     resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
-    engines: {node: '>=12'}
-
-  dotenv@16.4.0:
-    resolution: {integrity: sha512-WvImr5kpN5NGNn7KaDjJnLTh5rDVLZiDf/YLA8T1ZEZEBZNEDOE+mnkS0PVjPax8ZxBP5zC5SLMB3/9VV5de9g==}
     engines: {node: '>=12'}
 
   dotenv@16.4.5:
@@ -491,8 +477,8 @@ packages:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
 
-  hono@3.12.7:
-    resolution: {integrity: sha512-jfyIoE8D5I1PGj0tXAGqpQ2miAWBBuHFjJsWjh0hbBVludQ8QO4lF6KTbPvjMi4venp8Q6DyMoJ51CwP6L5LNA==}
+  hono@3.12.12:
+    resolution: {integrity: sha512-5IAMJOXfpA5nT+K0MNjClchzz0IhBHs2Szl7WFAhrFOsbtQsYmNynFyJRg/a3IPsmCfxcrf8txUGiNShXpK5Rg==}
     engines: {node: '>=16.0.0'}
 
   human-signals@5.0.0:
@@ -678,10 +664,6 @@ packages:
         optional: true
       socks:
         optional: true
-
-  mongoose@8.1.0:
-    resolution: {integrity: sha512-kOA4Xnq2goqNpN9EmYElGNWfxA9H80fxcr7UdJKWi3UMflza0R7wpTihCpM67dE/0MNFljoa0sjQtlXVkkySAQ==}
-    engines: {node: '>=16.20.1'}
 
   mongoose@8.2.0:
     resolution: {integrity: sha512-la93n6zCYRbPS+c5N9oTDAktvREy5OT9OCljp1Tah0y3+p8UPMTAoabWaLZMdzYruOtF9/9GRf6MasaZjiZP1A==}
@@ -977,8 +959,8 @@ packages:
     resolution: {integrity: sha512-8aAvwVUSHpfEqTQ4w/KMlf3HcRdt50E5ODIQJBw1fQ5RL34xabzxtUlzTXVqc4rkZsPbvrXKWnABCD7kWSmocA==}
     engines: {node: '>= 14'}
 
-  zod@3.22.4:
-    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+  zod@3.23.4:
+    resolution: {integrity: sha512-/AtWOKbBgjzEYYQRNfoGKHObgfAZag6qUJX1VbHo2PRBgS+wfWagEY2mizjfyAPcGesrJOcx/wcl0L9WnVrHFw==}
 
 snapshots:
 
@@ -1019,7 +1001,7 @@ snapshots:
 
   '@google/generative-ai@0.1.3': {}
 
-  '@hono/node-server@1.5.0': {}
+  '@hono/node-server@1.11.1': {}
 
   '@ioredis/commands@1.2.0': {}
 
@@ -1061,10 +1043,6 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
-  '@types/node@20.11.6':
-    dependencies:
-      undici-types: 5.26.5
-
   '@types/node@20.12.7':
     dependencies:
       undici-types: 5.26.5
@@ -1101,8 +1079,6 @@ snapshots:
   braces@3.0.2:
     dependencies:
       fill-range: 7.0.1
-
-  bson@6.2.0: {}
 
   bson@6.4.0: {}
 
@@ -1182,8 +1158,6 @@ snapshots:
 
   denque@2.1.0: {}
 
-  discord-api-types@0.37.79: {}
-
   discord-api-types@0.37.83: {}
 
   dotenv-cli@7.3.0:
@@ -1201,8 +1175,6 @@ snapshots:
       minimist: 1.2.8
 
   dotenv-expand@10.0.0: {}
-
-  dotenv@16.4.0: {}
 
   dotenv@16.4.5: {}
 
@@ -1261,7 +1233,7 @@ snapshots:
 
   has-flag@4.0.0: {}
 
-  hono@3.12.7: {}
+  hono@3.12.12: {}
 
   human-signals@5.0.0: {}
 
@@ -1399,25 +1371,6 @@ snapshots:
       bson: 6.6.0
       mongodb-connection-string-url: 3.0.0
 
-  mongoose@8.1.0:
-    dependencies:
-      bson: 6.2.0
-      kareem: 2.5.1
-      mongodb: 6.3.0
-      mpath: 0.9.0
-      mquery: 5.0.0
-      ms: 2.1.3
-      sift: 16.0.1
-    transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@mongodb-js/zstd'
-      - gcp-metadata
-      - kerberos
-      - mongodb-client-encryption
-      - snappy
-      - socks
-      - supports-color
-
   mongoose@8.2.0:
     dependencies:
       bson: 6.4.0
@@ -1511,7 +1464,7 @@ snapshots:
     dependencies:
       '@sapphire/async-queue': 1.5.2
       chokidar: 3.6.0
-      discord-api-types: 0.37.79
+      discord-api-types: 0.37.83
       form-data: 4.0.0
       ioredis: 5.4.1
       magic-bytes.js: 1.10.0
@@ -1723,4 +1676,4 @@ snapshots:
 
   yaml@2.3.4: {}
 
-  zod@3.22.4: {}
+  zod@3.23.4: {}
