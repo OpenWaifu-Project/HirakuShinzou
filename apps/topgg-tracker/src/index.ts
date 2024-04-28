@@ -2,7 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { topggSchema } from "./topgg.schema";
 import { processVote } from "./script";
-import * as fs from "fs";
+import * as fs from "node:fs";
 import { DiscordAPIError } from "seyfert";
 import { startDB } from "@repo/database";
 
@@ -77,4 +77,4 @@ serve({
 });
 
 // Connect to MongoDB
-startDB();
+startDB(process.env.MONGO_URI!);

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-async function startDB() {
-	await mongoose.connect(process.env.MONGO_URI!);
+async function startDB(mongoURI: string) {
+	await mongoose.connect(mongoURI);
 }
 
 export { startDB };

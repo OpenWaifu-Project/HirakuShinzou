@@ -36,7 +36,7 @@ class Hiraku extends Client {
 		});
 		await this.start();
 		await this.uploadCommands();
-		await startDB();
+		await startDB(process.env.MONGO_URI);
 	}
 }
 
