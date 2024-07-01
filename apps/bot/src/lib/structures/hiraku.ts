@@ -58,7 +58,10 @@ declare global {
 			OPENAI_API_KEY: string;
 			OPENROUTER_API_KEY: string;
 			MONGO_URI: string;
-			GOOGLE_AI_KEY: string;
+			GOOGLE_AI_KEY_1: string;
+			GOOGLE_AI_KEY_2: string;
+			GOOGLE_AI_KEY_3: string;
+			GOOGLE_AI_KEY_4: string;
 			BOT_TOKEN: string;
 			PRODIA_API_KEY: string;
 			REDIS_HOST: string;

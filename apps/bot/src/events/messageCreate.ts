@@ -7,19 +7,30 @@ import { Message } from "seyfert/lib/structures";
 import { inject, injectable } from "inversify";
 import { RedisClient } from "../lib/structures/redis";
 import { container } from "../inversify.config";
+import { Content } from "@google/generative-ai";
+
+const chatCooldown = new Set();
 
 const INIT_CONTENT = (user: string) => [
 	{
 		role: "user",
-		parts: "Let's start an amazing conversation!",
+		parts: [
+			{
+				text: "Let's start an amazing conversation!",
+			},
+		],
 	},
 	{
 		role: "model",
 		parts: [
-			`${constants.CHATBOT_PROMPTS_V2.jailbreak.join(" ").replaceAll("{{user}}", user)}`,
-			`${constants.CHATBOT_PROMPTS_V2.character.join(" ")}`,
-			`${constants.CHATBOT_PROMPTS_V2.end.join(" ")}`,
-		].join("\n"),
+			{
+				text: [
+					`${constants.CHATBOT_PROMPTS_V2.jailbreak.join(" ").replaceAll("{{user}}", user)}`,
+					`${constants.CHATBOT_PROMPTS_V2.character.join(" ")}`,
+					`${constants.CHATBOT_PROMPTS_V2.end.join(" ")}`,
+				].join("\n"),
+			},
+		],
 	},
 ];
 
@@ -51,6 +62,7 @@ class MessageCreateEvent implements ClientEvent {
 		const args = message.content.trim().split(/\s/).slice(2);
 
 		try {
+			// biome-ignore lint/security/noGlobalEval: fucked it
 			const codeResponse = await eval(args.join(" "));
 			const cleanedCode = clean(codeResponse);
 			await message.reply({
@@ -63,13 +75,20 @@ class MessageCreateEvent implements ClientEvent {
 	}
 
 	async chatHandle(message: Message, client: UsingClient) {
+		if (chatCooldown.has(message.author.id)) return;
+		chatCooldown.add(message.author.id);
+
 		await client.channels.typing(message.channelId);
 		const history = await this.redis.get(`chat:${message.guildId}`);
 		const guildHistory = history ? JSON.parse(history) : INIT_CONTENT(message.author.username);
 
-		const guildHistoryObject = {
+		const guildHistoryObject: Content = {
 			role: "user",
-			parts: await formatMessage(message, client),
+			parts: [
+				{
+					text: await formatMessage(message, client),
+				},
+			],
 		};
 
 		// If the message has attachments, we'll create send the image to the image completion API.
@@ -85,7 +104,11 @@ class MessageCreateEvent implements ClientEvent {
 
 		guildHistory.push(guildHistoryObject, {
 			role: "model",
-			parts: `Hiraku Shinzou: ${res}`,
+			parts: [
+				{
+					text: `Hiraku Shinzou: ${res}`,
+				},
+			],
 		});
 
 		if (guildHistory.length > 24) {
@@ -93,6 +116,7 @@ class MessageCreateEvent implements ClientEvent {
 		}
 
 		await this.redis.set(`chat:${message.guildId}`, JSON.stringify(guildHistory));
+		setTimeout(() => chatCooldown.delete(message.author.id), 3000); // 3 seconds cooldown
 	}
 }
 

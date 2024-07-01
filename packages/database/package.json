@@ -13,10 +13,10 @@
   "main": "src/index.ts",
   "dependencies": {
     "@repo/logger": "workspace:*",
-    "@types/node": "^20.11.5",
-    "dotenv-cli": "^7.3.0",
+    "@types/node": "^20.12.11",
+    "dotenv-cli": "^7.4.2",
     "inversify": "^6.0.2",
-    "mongoose": "^8.2.0",
-    "reflect-metadata": "^0.2.1"
+    "mongoose": "^8.3.4",
+    "reflect-metadata": "^0.2.2"
   }
 }
