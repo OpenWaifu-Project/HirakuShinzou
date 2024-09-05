@@ -10,8 +10,10 @@ import { ImageProducer } from "./lib/jobs/image/image.producer";
 import { ProdiaQueue } from "./lib/jobs/image/prodia.queue";
 import { MonthlyReset } from "./lib/tasks/monthlyReset";
 
-const container = new Container({ skipBaseClassChecks: true });
-Container.merge(container, databaseContainer);
+const botContainer = new Container({ skipBaseClassChecks: true });
+const container = Container.merge(botContainer, databaseContainer) as Container;
+container.options.skipBaseClassChecks = true;
+// show all bindings
 
 decorate(injectable(), Client);
 decorate(injectable(), Command);

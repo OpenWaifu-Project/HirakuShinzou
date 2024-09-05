@@ -15,7 +15,7 @@ const options = {
 };
 
 @Declare({
-	name: "clearQueue",
+	name: "clearqueue",
 	description: "Clear the image queue (dev only)",
 })
 export default class ClearQueueCommand extends SubCommand {

@@ -108,6 +108,9 @@ importers:
       mongoose:
         specifier: ^8.6.1
         version: 8.6.1
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
       seyfert:
         specifier: github:potoland/potocuit#master
         version: paragonjs@https://codeload.github.com/potoland/potocuit/tar.gz/7567398478fd031cd3c2c224ee88088f0da1060d

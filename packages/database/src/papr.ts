@@ -26,6 +26,8 @@ class Papr extends PaprClass {
 		this.initialize(connection.db());
 
 		this.logger.info("Connected to MongoDB");
+
+		await this.updateSchemas();
 	}
 }
 

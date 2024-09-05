@@ -1,10 +1,11 @@
+import "reflect-metadata";
+
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { topggSchema } from "./topgg.schema";
 import { processVote } from "./script";
 import * as fs from "node:fs";
 import { DiscordAPIError } from "seyfert";
-import { Papr } from "@repo/database";
 import { papr } from "./papr";
 
 const app = new Hono();
