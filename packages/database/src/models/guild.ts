@@ -1,39 +1,43 @@
-import { Schema, model } from "mongoose";
-
-export interface GuildSchemaI {
-	_id: string;
-	settings: {
-		image: {
-			channel: string | null;
-			blur: boolean;
-			status: boolean;
-			filter: boolean;
-		};
-		chat: {
-			channel: string | null;
-			onlychannel: boolean;
-			status: boolean;
-		};
-		language: "en" | "es";
-	};
-}
-
-const guildSchema = new Schema<GuildSchemaI>({
-	_id: String,
-	settings: {
-		image: {
-			channel: { type: String, default: null },
-			blur: { type: Boolean, default: true },
-			status: { type: Boolean, default: true },
-			filter: { type: Boolean, default: true },
-		},
-		chat: {
-			channel: { type: String, default: null },
-			onlyChannel: { type: Boolean, default: false },
-			status: { type: Boolean, default: true },
-		},
-		language: { type: String, default: "en" },
+import { schema, types } from "papr";
+const GuildSchema = schema(
+	{
+		_id: types.string({ required: true }),
+		imageSettings: types.object(
+			{
+				channel: types.oneOf([types.string(), types.null()]),
+				blur: types.boolean(),
+				status: types.boolean(),
+				filter: types.boolean(),
+			},
+			{ required: true }
+		),
+		chatSettings: types.object(
+			{
+				channel: types.oneOf([types.string(), types.null()]),
+				onlyChannel: types.boolean(),
+				status: types.boolean(),
+			},
+			{ required: true }
+		),
+		language: types.string({ required: true }),
 	},
-});
+	{
+		defaults: {
+			imageSettings: {
+				blur: true,
+				status: true,
+				filter: true,
+			},
+			chatSettings: {
+				onlyChannel: false,
+				status: true,
+			},
+			language: "en",
+		},
+	}
+);
 
-export const guildModel = model<GuildSchemaI>("Guild", guildSchema);
+export type GuildDocument = (typeof GuildSchema)[0];
+export type GuildOptions = (typeof GuildSchema)[1];
+
+export { GuildSchema };

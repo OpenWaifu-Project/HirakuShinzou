@@ -6,7 +6,7 @@ import { Embed } from "seyfert/lib/builders";
 	description: "View your profile (token count, stats, etc)",
 })
 export default class ProfileCommand extends SubCommand {
-	async run(ctx: CommandContext<never, "prepare">) {
+	run(ctx: CommandContext<never, "prepare">) {
 		const { user } = ctx.metadata.prepare;
 		const lang = ctx.metadata.prepare.lang.commands.membership;
 
@@ -21,7 +21,7 @@ export default class ProfileCommand extends SubCommand {
 					`> **${lang.profile.voteStrike}**: ${user.voteStreak}`,
 					`**${lang.profile.imageStats}**`,
 					`> **Tokens**: ${user.tokens.image < 0 ? "∞" : user.tokens.image}`,
-					`> **${lang.profile.totalImages}**: ${user.stats.images}`,
+					`> **${lang.profile.totalImages}**: ${user.imageHistory?.length}`,
 					`**${lang.profile.chatStats}**`,
 					`> **Tokens**: ${user.tokens.chat < 0 ? "∞" : user.tokens.chat}`,
 				].join("\n")

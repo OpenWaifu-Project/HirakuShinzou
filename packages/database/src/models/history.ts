@@ -1,27 +1,24 @@
-import { Schema, model } from "mongoose";
+import { schema, types } from "papr";
 
-export interface imageHistoryI {
-	prompt: string;
-	negativePrompt: string;
-	width: number;
-	height: number;
-	genType: string;
-	url: string;
-	date: number;
-	user: string;
-	model: string;
-}
+const ImageHistorySchema = schema(
+	{
+		prompt: types.string({ required: true }),
+		negativePrompt: types.string(),
+		width: types.number({ required: true }),
+		height: types.number({ required: true }),
+		genType: types.string({ required: true }),
+		url: types.string({ required: true }),
+		model: types.string({ required: true }),
+		userId: types.string({ required: true }),
+		createdAt: types.date(),
+	},
+	{
+		defaults: {
+			createdAt: new Date(),
+		},
+	}
+);
 
-const imageHistorySchema = new Schema<imageHistoryI>({
-	prompt: String,
-	negativePrompt: String,
-	width: Number,
-	height: Number,
-	genType: String,
-	url: String,
-	model: String,
-	date: { type: Number, default: () => Date.now() },
-	user: { type: String, ref: "User" },
-});
+export type ImageHistoryDocument = (typeof ImageHistorySchema)[0];
 
-export const imageHistoryModel = model<imageHistoryI>("ImageHistory", imageHistorySchema);
+export { ImageHistorySchema };

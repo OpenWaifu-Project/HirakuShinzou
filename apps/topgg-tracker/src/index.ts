@@ -4,7 +4,8 @@ import { topggSchema } from "./topgg.schema";
 import { processVote } from "./script";
 import * as fs from "node:fs";
 import { DiscordAPIError } from "seyfert";
-import { startDB } from "@repo/database";
+import { Papr } from "@repo/database";
+import { papr } from "./papr";
 
 const app = new Hono();
 
@@ -76,5 +77,4 @@ serve({
 	port,
 });
 
-// Connect to MongoDB
-startDB(process.env.MONGO_URI!);
+papr.start(process.env.MONGO_URI!);

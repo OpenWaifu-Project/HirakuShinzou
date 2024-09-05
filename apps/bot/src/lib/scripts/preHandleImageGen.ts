@@ -18,17 +18,17 @@ export const preHandleImageGen = async (
 	const userData = ctx.metadata.prepare.user;
 	const lang = ctx.metadata.prepare.lang.commands.fun.image;
 
-	if (!guildData.settings.image.status) {
+	if (!guildData.imageSettings.status) {
 		await ctx.editOrReply({
 			content: lang.disabled,
 		});
 		return false;
 	}
 
-	if (guildData.settings.image.channel && guildData.settings.image.channel !== ctx.channelId) {
+	if (guildData.imageSettings.channel && guildData.imageSettings.channel !== ctx.channelId) {
 		await ctx.editOrReply({
 			content: lang.disabledChannel({
-				channel: guildData.settings.image.channel ?? "",
+				channel: guildData.imageSettings.channel ?? "",
 			}),
 		});
 
@@ -92,7 +92,7 @@ export const preHandleImageGen = async (
 
 			const { channel } = ctx.interaction;
 			if (channel?.isTextGuild() && !channel.nsfw) {
-				if (guildData.settings.image.filter ?? true) {
+				if (guildData.imageSettings.filter ?? true) {
 					ctx.interaction.editOrReply({
 						content: lang.filter.noValidChannel,
 						embeds: [new Embed().setColor(EmbedColors.Red).setDescription(lang.filter.noValidChannelEmbed)],

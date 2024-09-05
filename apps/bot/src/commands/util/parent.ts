@@ -3,7 +3,7 @@ import { AutoLoad, Command, Declare, Middlewares } from "seyfert";
 @Declare({
 	name: "util",
 	description: "Utility commands",
-	contexts: ["GUILD"],
+	contexts: ["Guild"],
 })
 @AutoLoad()
 @Middlewares(["prepare"])

@@ -1,64 +1,68 @@
-import { Schema, model } from "mongoose";
+import { schema, types } from "papr";
 
-export interface UserSchemaI {
-	_id: string;
-	lastVote: number;
-	voteStreak: number;
-	membership: {
-		plan: string;
-		since: number;
-		expires: number;
-	};
-	tokens: {
-		image: number;
-		chat: number;
-	};
-	multiplier: number;
-	stats: {
-		images: number;
-		imageHistory: Schema.Types.ObjectId[];
-	};
-	imageTags: {
-		prompt: string;
-		tag: string;
-	}[];
-	settings: {
-		image: {
-			history: boolean;
-		};
-	};
-}
-
-const userSchema = new Schema<UserSchemaI>({
-	_id: String,
-	lastVote: { type: Number, default: 0 },
-	voteStreak: { type: Number, default: 0 },
-	membership: {
-		plan: { type: String, default: "Free" },
-		since: { type: Number, default: () => Date.now() },
-		expires: { type: Number, default: () => Date.now() + 2592000000 },
+const UserSchema = schema(
+	{
+		_id: types.string({ required: true }),
+		lastVote: types.number({ required: true }),
+		voteStreak: types.number({ required: true }),
+		membership: types.object(
+			{
+				plan: types.string({ required: true }),
+				since: types.number({ required: true }),
+				expires: types.number({ required: true }),
+			},
+			{ required: true }
+		),
+		tokens: types.object(
+			{
+				image: types.number({ required: true }),
+				chat: types.number({ required: true }),
+			},
+			{ required: true }
+		),
+		multiplier: types.number({ required: true }),
+		imageHistory: types.array(types.objectId({ required: true })),
+		imageTags: types.array(
+			types.object({
+				prompt: types.string({ required: true }),
+				tag: types.string({ required: true }),
+			}),
+			{ required: true }
+		),
+		settings: types.object(
+			{
+				image: types.object({
+					history: types.boolean({ required: true }),
+				}),
+			},
+			{ required: true }
+		),
 	},
-	tokens: {
-		image: { type: Number, default: 10 },
-		chat: { type: Number, default: 5 },
-	},
-	multiplier: { type: Number, default: 1 },
-	stats: {
-		images: { type: Number, default: 0 },
-		imageHistory: [{ type: Schema.Types.ObjectId, ref: "ImageHistory" }],
-	},
-	imageTags: {
-		type: Array<{
-			prompt: string;
-			tag: string;
-		}>(),
-		default: [],
-	},
-	settings: {
-		image: {
-			history: { type: Boolean, default: true },
+	{
+		defaults: {
+			lastVote: 0,
+			voteStreak: 0,
+			membership: {
+				plan: "Free",
+				since: Date.now(),
+				expires: Date.now() + 2592000000,
+			},
+			tokens: {
+				image: 10,
+				chat: 5,
+			},
+			multiplier: 1,
+			imageHistory: [],
+			imageTags: [],
+			settings: {
+				image: {
+					history: true,
+				},
+			},
 		},
-	},
-});
+	}
+);
 
-export const userModel = model<UserSchemaI>("User", userSchema);
+export type UserDocument = (typeof UserSchema)[0];
+
+export { UserSchema };

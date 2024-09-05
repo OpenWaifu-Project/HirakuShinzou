@@ -11,18 +11,18 @@
 		"lint:fix": "eslint --fix src/"
 	},
 	"dependencies": {
-		"@google/generative-ai": "^0.14.0",
+		"@google/generative-ai": "^0.14.1",
 		"@repo/bull": "workspace:*",
 		"@repo/database": "workspace:*",
-		"adm-zip": "^0.5.12",
+		"adm-zip": "^0.5.16",
 		"base64-arraybuffer": "^1.0.2",
-		"bull": "^4.12.3",
+		"bull": "^4.16.2",
 		"dotenv": "^16.4.5",
 		"dotenv-cli": "^7.4.2",
 		"inversify": "^6.0.2",
 		"ioredis": "^5.4.1",
 		"moment": "^2.30.1",
-		"mongoose": "^8.3.4",
+		"mongoose": "^8.6.1",
 		"node-cron": "^3.0.3",
 		"reflect-metadata": "^0.2.2",
 		"seyfert": "github:tiramisulabs/seyfert"

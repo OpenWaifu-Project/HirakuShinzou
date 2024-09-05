@@ -62,12 +62,7 @@ export default class ImageCommand extends SubCommand {
 		prompt = pre;
 
 		const modelInfo = ImageModels[model];
-		await this.userService.update(ctx.author.id, {
-			$inc: {
-				"tokens.image": -(modelInfo.tokensPerUse ?? 1),
-				"stats.images": 1,
-			},
-		});
+		await this.userService.updateTokens(ctx.author.id, "image", -(modelInfo.tokensPerUse ?? 1));
 
 		await this.imageService.produceDalle({
 			userId: ctx.author.id,

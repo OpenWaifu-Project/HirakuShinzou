@@ -4,7 +4,7 @@ import { MessageFlags } from "seyfert/lib/types";
 @Declare({
 	name: "dev",
 	description: "Dev commands",
-	contexts: ["GUILD"],
+	contexts: ["Guild"],
 })
 @AutoLoad()
 @Middlewares(["devOnly", "prepare"])

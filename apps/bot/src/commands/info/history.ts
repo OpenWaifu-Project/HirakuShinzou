@@ -47,7 +47,7 @@ export default class HistoryCommand extends SubCommand {
 		let pageInput = context.options.page || 1;
 		const prompt = context.options.prompt?.split("|").map((p) => p.trim());
 
-		const images = await this.imageHistoryModel.getHistoryByUser(context.author.id, {
+		const images = await this.imageHistoryModel.filterByUser(context.author.id, {
 			prompt,
 			model: context.options.model,
 			genType: context.options.type,
@@ -70,7 +70,7 @@ export default class HistoryCommand extends SubCommand {
 						`> **Prompt**: ${currentImage.prompt}`,
 						// `> **Negative Prompt**: ${currentImage.negativePrompt}`,
 						`> **Resolution**: ${currentImage.width}x${currentImage.height}`,
-						`> **Date**: ${moment(currentImage.date).format("YYYY-MM-DD HH:mm:ss")}`,
+						`> **Date**: ${moment(currentImage.createdAt).format("YYYY-MM-DD HH:mm:ss")}`,
 						`> **Type**: ${currentImage.genType ?? "Generate"}`,
 						`> **Model**: ${currentImage.model ?? "None"}`,
 						currentImage.negativePrompt ? `> **Negative Prompt**: ${currentImage.negativePrompt}` : "",
@@ -120,7 +120,7 @@ export default class HistoryCommand extends SubCommand {
 			const page = Number.parseInt(i.customId.split("-")[1]);
 			const image = images.at(page - 1) ?? images[0];
 
-			this.imageHistoryModel.delete(image._id, context.author.id);
+			this.imageHistoryModel.delete(image._id);
 			images.splice(images.indexOf(image), 1);
 
 			i.update({

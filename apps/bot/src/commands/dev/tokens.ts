@@ -27,7 +27,7 @@ const options = {
 				name: "Chat",
 				value: "chat",
 			},
-		],
+		] as const,
 	}),
 	amount: createIntegerOption({
 		required: true,
@@ -47,11 +47,7 @@ export default class GiveCommand extends SubCommand {
 		const type = ctx.options.type;
 		const amount = ctx.options.amount;
 
-		await this.userService.update(user, {
-			$inc: {
-				[`tokens.${type}`]: amount,
-			},
-		});
+		await this.userService.updateTokens(user, type, amount);
 
 		await ctx.deferReply(true);
 		await ctx.editOrReply({

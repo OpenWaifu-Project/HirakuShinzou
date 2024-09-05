@@ -1,4 +1,4 @@
-import util from "util";
+import util from "node:util";
 import { UsingClient } from "seyfert";
 import { Message } from "seyfert/lib/structures";
 

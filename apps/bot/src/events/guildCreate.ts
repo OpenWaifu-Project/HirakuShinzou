@@ -22,13 +22,11 @@ export default createEvent<"guildCreate">({
 		if (!guildData) {
 			guildData = await guildService.create({
 				_id: guild.id,
-				settings: {
-					language: discordLocales[guild.preferredLocale as keyof typeof discordLocales] ?? "en",
-				},
+				language: discordLocales[guild.preferredLocale as keyof typeof discordLocales] ?? "en",
 			});
 		}
 
-		const guildLocale = guildData.settings.language;
+		const guildLocale = guildData.language;
 		const t = client.t(guildLocale).get();
 		if (!guild.systemChannelId) return;
 

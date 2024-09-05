@@ -48,13 +48,13 @@ export default class MembershipClaimCommand extends SubCommand {
 			});
 		}
 
-		await this.userService.update(ctx.author.id, {
-			$set: {
-				"membership.plan": newMembership.name,
-			},
-			$inc: {
-				"tokens.image": newMembership.imageTokens,
-				"tokens.chat": newMembership.chatTokens,
+		await this.userService.updateTokens(ctx.author.id, "image", newMembership.imageTokens);
+		await this.userService.updateTokens(ctx.author.id, "chat", newMembership.chatTokens);
+		await this.userService.updateUser(ctx.author.id, {
+			membership: {
+				plan: newMembership.name,
+				since: Date.now(),
+				expires: Date.now() + 30 * 24 * 60 * 60 * 1000, // 30 days
 			},
 		});
 

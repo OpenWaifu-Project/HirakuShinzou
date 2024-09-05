@@ -18,6 +18,6 @@
     "inversify": "^6.0.2"
   },
   "devDependencies": {
-    "@types/node": "^20.12.11"
+    "@types/node": "^20.16.5"
   }
 }

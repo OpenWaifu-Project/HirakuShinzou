@@ -36,9 +36,9 @@ export default class ChannelCommand extends SubCommand {
 			});
 		}
 
-		await this.guildService.update(ctx.interaction.guildId!, {
-			$set: {
-				"settings.image.channel": channel ? channel.id : null,
+		await this.guildService.updateGuildSettings(ctx.guildId!, {
+			imageSettings: {
+				channel: channel ? channel.id : null,
 			},
 		});
 

@@ -26,9 +26,9 @@ export default class BlurCommand extends SubCommand {
 		const filter = ctx.options.filter as "on" | "off";
 		const lang = ctx.metadata.prepare.lang.commands.manage.image.filter;
 
-		await this.guildService.update(ctx.interaction.guildId!, {
-			$set: {
-				"settings.image.filter": filter === "on",
+		await this.guildService.updateGuildSettings(ctx.guildId!, {
+			imageSettings: {
+				filter: filter === "on",
 			},
 		});
 

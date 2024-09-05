@@ -4,7 +4,7 @@ import { AutoLoad, Command, Declare, Groups, Middlewares } from "seyfert";
 	name: "manage",
 	description: "Manage commands",
 	defaultMemberPermissions: ["ManageGuild"],
-	contexts: ["GUILD"],
+	contexts: ["Guild"],
 })
 @AutoLoad()
 @Middlewares(["prepare"])

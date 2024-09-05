@@ -1,68 +1,94 @@
 import { injectable } from "inversify";
-import { type UserSchemaI, userModel } from "./models/user";
-import type { Types, UpdateQuery, UpdateWithAggregationPipeline } from "mongoose";
 import { Logger } from "@repo/logger";
+import { Papr } from "./papr";
+import { UserDocument } from "./models/user";
+import { ObjectId } from "mongodb";
 
 @injectable()
 class UserService {
 	private logger = new Logger(UserService.name);
 
-	async get(id: string, createIfNotExists?: true): Promise<UserSchemaI>;
-	async get(id: string, createIfNotExists: false): Promise<UserSchemaI | null>;
-	async get(id: string, createIfNotExists = true): Promise<UserSchemaI | null> {
-		let user = await userModel.findById(id).lean();
+	constructor(private readonly papr: Papr) {}
+	async get(id: string, createIfNotExists?: true): Promise<UserDocument>;
+	async get(id: string, createIfNotExists: false): Promise<UserDocument | null>;
+	async get(id: string, createIfNotExists = true): Promise<UserDocument | null> {
+		let user = await this.papr.user.findById(id);
+
 		if (!user && createIfNotExists) {
-			user = (await userModel.create({ _id: id })).toObject();
+			this.logger.info(`Creating user ${id}.`);
+			user = await this.papr.user.insertOne({ _id: id });
 		}
+
 		return user;
 	}
 
-	async update(id: string, data: UpdateQuery<UserSchemaI> | UpdateWithAggregationPipeline) {
-		const guild = await userModel.updateOne({ _id: id }, data).lean();
-		return guild;
-	}
-
 	updateTag(id: string, prompt: string, tag: string) {
-		return userModel.findByIdAndUpdate(
-			id,
+		return this.papr.user.updateOne(
+			{ _id: id, "imageTags.prompt": prompt },
 			{
 				$set: {
-					"imageTags.$[elem].tags": tag,
+					"imageTags.$": {
+						prompt,
+						tag,
+					},
 				},
-			},
-			{
-				arrayFilters: [{ "elem.prompt": prompt }],
 			}
 		);
 	}
 
 	createTag(id: string, prompt: string, tag: string) {
-		return userModel.findByIdAndUpdate(id, {
-			$push: {
-				imageTags: {
-					prompt,
-					tag,
+		return this.papr.user.updateOne(
+			{ _id: id },
+			{
+				$push: {
+					imageTags: {
+						prompt,
+						tag,
+					},
 				},
-			},
-		});
+			}
+		);
 	}
 
 	deleteTag(id: string, prompt: string) {
-		return userModel.findByIdAndUpdate(id, {
-			$pull: { imageTags: { prompt } },
-		});
+		return this.papr.user.updateOne(
+			{ _id: id },
+			{
+				$pull: {
+					imageTags: { prompt },
+				},
+			}
+		);
 	}
 
-	createImageHistory(id: string, imageId: Types.ObjectId) {
-		return userModel.findByIdAndUpdate(id, {
-			$push: {
-				"stats.imageHistory": imageId,
-			},
-		});
+	createImageHistory(id: string, imageId: ObjectId) {
+		return this.papr.user.updateOne(
+			{ _id: id },
+			{
+				$push: {
+					"stats.imageHistory": imageId,
+				},
+			}
+		);
+	}
+
+	updateTokens(id: string, type: "image" | "chat", amount: number) {
+		return this.papr.user.updateOne(
+			{ _id: id },
+			{
+				$inc: {
+					[`tokens.${type}`]: amount,
+				},
+			}
+		);
+	}
+
+	updateUser(id: string, update: Partial<UserDocument>) {
+		return this.papr.user.updateOne({ _id: id }, { $set: update });
 	}
 
 	async bulkUpdateMonthly() {
-		const result = await userModel.updateMany(
+		const result = await this.papr.user.updateMany(
 			{},
 			{
 				$set: {
@@ -73,7 +99,7 @@ class UserService {
 
 		this.logger.info(`Monthly reset done, updated ${result.modifiedCount} users`);
 
-		const result_membershipI = await userModel.updateMany(
+		const result_membershipI = await this.papr.user.updateMany(
 			{ "membership.plan": "Tier I" },
 			{
 				$set: {
@@ -81,9 +107,10 @@ class UserService {
 				},
 			}
 		);
+
 		this.logger.info(`Monthly reset done, updated ${result_membershipI.modifiedCount} users to Tier I`);
 
-		const result_membershipII = await userModel.updateMany(
+		const result_membershipII = await this.papr.user.updateMany(
 			{ "membership.plan": "Tier II" },
 			{
 				$set: {
@@ -91,6 +118,7 @@ class UserService {
 				},
 			}
 		);
+
 		this.logger.info(`Monthly reset done, updated ${result_membershipII.modifiedCount} users to Tier II`);
 	}
 }

@@ -5,7 +5,7 @@ export default createEvent<"guildDelete">({
 	data: { name: "guildDelete" },
 	async run({ id, unavailable }, client) {
 		if (unavailable) return;
-		const guild = await client.cache.guilds?.get(id);
+		const guild = client.cache.guilds?.get(id);
 		if (!guild) return;
 
 		const embed = new Embed()
@@ -16,7 +16,7 @@ export default createEvent<"guildDelete">({
 			.setDescription(
 				[
 					`**Member count**: ${guild.memberCount}`,
-					`**Channels count**: ${await client.cache.channels?.count(guild.id)}`,
+					`**Channels count**: ${client.cache.channels?.count(guild.id)}`,
 					`**Guild Id**: ${guild.id}`,
 					`**Left At**: ${new Date().toLocaleString("es-NI")}`,
 				].join("\n")

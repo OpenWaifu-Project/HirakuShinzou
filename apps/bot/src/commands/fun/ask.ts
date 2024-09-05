@@ -93,11 +93,7 @@ export default class AskCommand extends SubCommand {
 			});
 
 		await context.editResponse({ embeds: [embedResponse] });
-		await this.userService.update(context.author.id, {
-			$inc: {
-				"tokens.chat": -usedModel.requiredTokens,
-			},
-		});
+		await this.userService.updateTokens(context.author.id, "chat", -usedModel.requiredTokens);
 
 		return;
 	}

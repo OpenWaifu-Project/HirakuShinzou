@@ -1,30 +1,38 @@
+// import { injectable } from "inversify";
+// import { type GuildSchemaI, guildModel } from "./models/guild";
+// import type { AnyKeys, UpdateQuery, UpdateWithAggregationPipeline } from "mongoose";
+
 import { injectable } from "inversify";
-import { type GuildSchemaI, guildModel } from "./models/guild";
-import type { AnyKeys, UpdateQuery, UpdateWithAggregationPipeline } from "mongoose";
+import { Papr } from "./papr";
+import { GuildDocument, GuildOptions } from "./models/guild";
+import { Logger } from "@repo/logger";
+import { DocumentForInsert } from "papr";
 
 @injectable()
 class GuildService {
-	async get(id: string, createIfNotExists?: true): Promise<GuildSchemaI>;
-	async get(id: string, createIfNotExists: false): Promise<GuildSchemaI | null>;
-	async get(id: string, createIfNotExists = true): Promise<GuildSchemaI | null> {
-		let guild = await guildModel.findById(id).lean();
+	private logger = new Logger(GuildService.name);
+
+	constructor(private readonly papr: Papr) {}
+
+	async get(id: string, createIfNotExists?: true): Promise<GuildDocument>;
+	async get(id: string, createIfNotExists: false): Promise<GuildDocument | null>;
+	async get(id: string, createIfNotExists = true): Promise<GuildDocument | null> {
+		let guild = await this.papr.guild.findById(id);
+
 		if (!guild && createIfNotExists) {
-			guild = (await guildModel.create({ _id: id })).toObject();
+			this.logger.info(`Creating guild ${id}.`);
+			guild = await this.papr.guild.insertOne({ _id: id });
 		}
+
 		return guild;
 	}
 
-	async update(id: string, data: UpdateQuery<GuildSchemaI> | UpdateWithAggregationPipeline) {
-		const guild = await guildModel.updateOne({ _id: id }, data).lean();
-		return guild;
+	updateGuildSettings(id: string, data: Omit<DocumentForInsert<GuildDocument, GuildOptions>, "_id">) {
+		return this.papr.guild.updateOne({ _id: id }, { $set: { ...data } });
 	}
 
-	async create(data: GuildSchemaI | AnyKeys<GuildSchemaI>) {
-		return (await guildModel.create(data)).toObject();
-	}
-
-	get model() {
-		return guildModel;
+	create(data: DocumentForInsert<GuildDocument, GuildOptions>) {
+		return this.papr.guild.insertOne({ ...data });
 	}
 }
 

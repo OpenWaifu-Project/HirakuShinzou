@@ -2,8 +2,9 @@ import { Embed, REST, Router } from "seyfert";
 import { topggSchema } from "./topgg.schema";
 import { UserService } from "@repo/database";
 import * as z from "zod";
+import { papr } from "./papr";
 
-const userService = new UserService();
+const userService = new UserService(papr);
 
 const HirakuImages = [
 	"https://media.discordapp.net/attachments/1187839305788424283/1197372464846610472/artist__bee_deadflow_clear_blue_hair_short_hair_blue_eyes_dev_dev0614_s-3109237085.png?ex=65bb0701&is=65a89201&hm=287dde5417ff59bd6dc9414d83c4514e4e457810ea1334a27bc575a9d67dabb3&=&format=webp&quality=lossless&width=638&height=436",
@@ -16,10 +17,8 @@ const router = new Router(
 ).createProxy();
 
 async function updateUser(id: string, tokens: number, streak: number) {
-	return userService.update(id, {
-		$inc: {
-			"tokens.image": tokens,
-		},
+	await userService.updateTokens(id, "image", tokens);
+	return userService.updateUser(id, {
 		voteStreak: streak,
 		lastVote: Date.now(),
 	});
@@ -134,7 +133,7 @@ const membershipRolesIds = {
  * - Tokens votos: 1 per 5 votes
  * - Tokens total: tokens base + tokens streak + tokens votos
  */
-async function calculateToken(streak: number) {
+function calculateToken(streak: number) {
 	const tokensBase = 15;
 
 	const tokensStreak = Math.min(streak, 5);

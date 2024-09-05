@@ -4,7 +4,7 @@ import { MessageFlags } from "seyfert/lib/types";
 @Declare({
 	name: "fun",
 	description: "Many of fun commands",
-	contexts: ["GUILD"],
+	contexts: ["Guild"],
 })
 @Groups({
 	image: {

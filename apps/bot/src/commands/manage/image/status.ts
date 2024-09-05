@@ -26,9 +26,9 @@ export default class StatusCommand extends SubCommand {
 		const status = ctx.options.status as "on" | "off";
 		const lang = ctx.metadata.prepare.lang.commands.manage.image.status;
 
-		await this.guildService.update(ctx.interaction.guildId!, {
-			$set: {
-				"settings.image.status": status === "on",
+		await this.guildService.updateGuildSettings(ctx.guildId!, {
+			imageSettings: {
+				status: status === "on",
 			},
 		});
 

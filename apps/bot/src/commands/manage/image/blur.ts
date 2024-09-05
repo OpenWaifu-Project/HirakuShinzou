@@ -26,9 +26,9 @@ export default class BlurCommand extends SubCommand {
 		const status = ctx.options.status as "on" | "off";
 		const lang = ctx.metadata.prepare.lang.commands.manage.image.blur;
 
-		await this.guildService.update(ctx.guildId!, {
-			$set: {
-				"settings.image.blur": status === "on",
+		await this.guildService.updateGuildSettings(ctx.guildId!, {
+			imageSettings: {
+				blur: status === "on",
 			},
 		});
 

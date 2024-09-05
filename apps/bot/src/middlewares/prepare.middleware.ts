@@ -22,7 +22,7 @@ export class prepareMiddleware {
 		middle.next({
 			guild: guild,
 			user: user,
-			lang: middle.context.t.get(guild.settings.language ?? "en"),
+			lang: middle.context.t.get(guild.language ?? "en"),
 		});
 	});
 }

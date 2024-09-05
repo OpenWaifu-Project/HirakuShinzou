@@ -99,12 +99,7 @@ export default class ImageCommand extends SubCommand {
 		prompt = pre;
 
 		const modelInfo = ImageModels.anime;
-		await this.userService.update(ctx.author.id, {
-			$inc: {
-				"tokens.image": -(modelInfo.tokensPerUse ?? 1),
-				"stats.images": 1,
-			},
-		});
+		await this.userService.updateTokens(ctx.author.id, "image", -(modelInfo.tokensPerUse ?? 1));
 
 		await this.imageService.produceAnimeStyle({
 			userId: ctx.author.id,

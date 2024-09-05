@@ -16,10 +16,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.6.4",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "turbo": "^1.13.3",
-    "typescript": "^5.4.5"
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.10",
+    "turbo": "^1.13.4",
+    "typescript": "^5.5.4"
   },
   "packageManager": "pnpm@9.0.6",
   "engines": {

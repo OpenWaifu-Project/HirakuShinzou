@@ -8,13 +8,13 @@
     "lint:fix": "eslint --fix src/"
   },
   "dependencies": {
-    "@hono/node-server": "^1.11.1",
+    "@hono/node-server": "^1.12.2",
     "@repo/database": "workspace:*",
-    "@types/node": "^20.12.11",
+    "@types/node": "^20.16.5",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
     "hono": "^3.12.12",
-    "mongoose": "^8.3.4",
+    "mongoose": "^8.6.1",
     "seyfert": "github:potoland/potocuit#master",
     "zod": "^3.23.8"
   }

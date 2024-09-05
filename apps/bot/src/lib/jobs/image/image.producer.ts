@@ -25,6 +25,10 @@ export class ImageProducer {
 		this.prodiaQueue.on("completed", this.sendImage.bind(this));
 	}
 
+	public clearQueue(queue: "anime" | "dalle" | "prodia") {
+		return this[`${queue}Queue`].empty();
+	}
+
 	public produceAnimeStyle(data: AnimeJobI) {
 		return this.animeQueue.add(data, {
 			removeOnComplete: true,
@@ -59,8 +63,8 @@ export class ImageProducer {
 		if (!channel?.isTextGuild()) return;
 
 		const guild = await this.guildService.get(channel.guildId!);
-		const lang = this.client.t(guild.settings.language).get();
-		const blur = guild.settings.image.blur;
+		const lang = this.client.t(guild.language).get();
+		const blur = guild.imageSettings.blur ?? true;
 
 		const sendedMsg = await channel.messages
 			.write({
@@ -93,7 +97,7 @@ export class ImageProducer {
 			embeds: [embed],
 		});
 
-		const ihm = await this.imageHistoryService.create({
+		await this.imageHistoryService.create({
 			prompt: job.data.imageData.prompt,
 			width: job.data.imageData.width,
 			height: job.data.imageData.height,
@@ -101,13 +105,7 @@ export class ImageProducer {
 			model: ImageModels[job.data.model as keyof typeof ImageModels].name,
 			...(job.data.model === "anime" && { negativePrompt: (job.data as AnimeJobI).imageData.negativePrompt }),
 			url: sendedMsg.attachments[0].url,
-			user: job.data.userId,
-		});
-
-		await this.userService.update(job.data.userId, {
-			$push: {
-				"stats.imageHistory": ihm._id,
-			},
+			userId: job.data.userId,
 		});
 	}
 
@@ -119,17 +117,12 @@ export class ImageProducer {
 
 		const modelUsed = ImageModels[job.data.model as keyof typeof ImageModels];
 
-		await this.userService.update(job.data.userId, {
-			$inc: {
-				"tokens.image": modelUsed.tokensPerUse,
-				"stats.images": -1,
-			},
-		});
+		await this.userService.updateTokens(job.data.userId, "image", modelUsed.tokensPerUse);
 
 		const channel = (await this.client.channels.fetch(job.data.channelId)) as TextGuildChannel;
 
 		const guildData = await this.guildService.get(channel.guildId!);
-		const lang = this.client.t(guildData.settings.language).get();
+		const lang = this.client.t(guildData.language).get();
 
 		await channel.messages.write({
 			content: `<@${job.data.userId}> ${lang.imageGenerated.error}`,

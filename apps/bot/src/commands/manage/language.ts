@@ -25,10 +25,8 @@ export default class LanguageCommand extends SubCommand {
 		const language = ctx.options.lang as "en" | "es";
 		const lang = ctx.t.get(language);
 
-		await this.guildService.update(ctx.guildId!, {
-			$set: {
-				"settings.language": language,
-			},
+		await this.guildService.updateGuildSettings(ctx.guildId!, {
+			language,
 		});
 
 		await ctx.editOrReply({

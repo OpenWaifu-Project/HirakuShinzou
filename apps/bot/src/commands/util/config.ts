@@ -20,9 +20,11 @@ export default class ConfigCommand extends SubCommand {
 		const lang = ctx.metadata.prepare.lang.commands.util;
 		const history = ctx.options.history ?? false;
 
-		await this.userService.update(ctx.author.id, {
-			$set: {
-				"settings.history": history,
+		await this.userService.updateUser(ctx.author.id, {
+			settings: {
+				image: {
+					history,
+				},
 			},
 		});
 

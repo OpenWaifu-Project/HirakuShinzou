@@ -1,14 +1,14 @@
 import type defaultLang from "../../languages/en";
 import { injectable } from "inversify";
-import { startDB } from "@repo/database";
 import { type ParseLocales, Client, type ParseMiddlewares, type ParseClient } from "seyfert";
 import type { allMiddlewares } from "../../middlewares";
-import { HirakuLogger } from "./logger";
 import { container } from "../../inversify.config";
+import { Logger } from "@repo/logger";
+import { Papr } from "@repo/database";
 
 @injectable()
 class Hiraku extends Client {
-	logger = new HirakuLogger({});
+	private readonly _logger = new Logger("Hiraku");
 
 	constructor() {
 		super({
@@ -23,20 +23,21 @@ class Hiraku extends Client {
 	async init() {
 		this.setServices({
 			middlewares: (await import("../../middlewares")).allMiddlewares,
-			handlers: {
-				commands: {
-					onCommand: (file) => {
-						return container.resolve(file);
-					},
-					onSubCommand: (file) => {
-						return container.resolve(file);
-					},
-				},
-			},
 		});
+
+		if (this.commands) {
+			this.commands.onCommand = (file) => {
+				return container.resolve(file);
+			};
+
+			this.commands.onSubCommand = (file) => {
+				return container.resolve(file);
+			};
+		}
+
 		await this.start();
 		await this.uploadCommands();
-		await startDB(process.env.MONGO_URI);
+		container.get(Papr).start(process.env.MONGO_URI);
 	}
 }
 
