@@ -11,9 +11,9 @@ class Papr extends PaprClass {
 	private logger = new Logger(Papr.name);
 
 	// models
-	guild = this.model("guild", GuildSchema);
-	user = this.model("user", UserSchema);
-	imageHistory = this.model("imageHistory", ImageHistorySchema);
+	guild = this.model("guilds", GuildSchema);
+	user = this.model("users", UserSchema);
+	imageHistory = this.model("imagehistories", ImageHistorySchema);
 
 	constructor() {
 		super({});
