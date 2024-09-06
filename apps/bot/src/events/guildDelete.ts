@@ -4,7 +4,7 @@ import { Embed } from "seyfert/lib/builders";
 export default createEvent<"guildDelete">({
 	data: { name: "guildDelete" },
 	async run(guild, client) {
-		if (!guild.unavailable) return;
+		if (guild.unavailable) return;
 		const g = guild as Guild<"cached">;
 
 		const embed = new Embed()
