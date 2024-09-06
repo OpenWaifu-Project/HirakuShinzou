@@ -57,6 +57,7 @@ app.post("/webhook", async (c) => {
 		}
 
 		if (e instanceof Error) {
+			console.log(e);
 			console.log(`[ERROR MESSAGE] ${e.message}`);
 		}
 

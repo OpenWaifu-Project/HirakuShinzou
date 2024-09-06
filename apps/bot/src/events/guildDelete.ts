@@ -1,23 +1,22 @@
-import { createEvent } from "seyfert";
+import { createEvent, Guild } from "seyfert";
 import { Embed } from "seyfert/lib/builders";
 
 export default createEvent<"guildDelete">({
 	data: { name: "guildDelete" },
-	async run({ id, unavailable }, client) {
-		if (unavailable) return;
-		const guild = client.cache.guilds?.get(id);
-		if (!guild) return;
+	async run(guild, client) {
+		if (!guild.unavailable) return;
+		const g = guild as Guild<"cached">;
 
 		const embed = new Embed()
 			.setAuthor({
-				name: guild.name,
-				iconUrl: guild.iconURL(),
+				name: g.name,
+				iconUrl: g.iconURL(),
 			})
 			.setDescription(
 				[
-					`**Member count**: ${guild.memberCount}`,
-					`**Channels count**: ${client.cache.channels?.count(guild.id)}`,
-					`**Guild Id**: ${guild.id}`,
+					`**Member count**: ${g.memberCount}`,
+					`**Channels count**: ${client.cache.channels?.count(g.id)}`,
+					`**Guild Id**: ${g.id}`,
 					`**Left At**: ${new Date().toLocaleString("es-NI")}`,
 				].join("\n")
 			)
