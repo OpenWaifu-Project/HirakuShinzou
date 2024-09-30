@@ -21,7 +21,6 @@ const options = {
 export default class StreakCommand extends SubCommand {
 	@inject(UserService) private readonly userService!: UserService;
 	async run(ctx: CommandContext<typeof options>) {
-		await ctx.deferReply(true);
 		const user = ctx.options.user.id;
 		const amount = ctx.options.amount;
 
