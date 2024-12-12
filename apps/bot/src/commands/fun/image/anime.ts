@@ -29,7 +29,7 @@ export const options = {
 			{ name: "Landscape", value: "1216x832" },
 			{ name: "Landscape (Large)", value: "1536x640" },
 			{ name: "Square", value: "1024x1024" },
-		],
+		] as const,
 	}),
 	sampler: createStringOption({
 		description: "Sampler to use for the image generation",
@@ -39,7 +39,7 @@ export const options = {
 			{ name: "DPM++ 2S Ancestral", value: "k_dpmpp_2s_ancestral" },
 			{ name: "DPM++ 2M", value: "k_dpmpp_2m" },
 			{ name: "DPM++ SDE", value: "k_dpmpp_sde" },
-		],
+		] as const,
 		required: false,
 	}),
 	steps: createNumberOption({
@@ -62,7 +62,7 @@ export const options = {
 			{ name: "Heavy (Hard Effect)", value: 0 },
 			{ name: "Light (Soft Effect)", value: 1 },
 			{ name: "None (No effect)", value: 2 },
-		],
+		] as const,
 		required: false,
 	}),
 	smea: createBooleanOption({

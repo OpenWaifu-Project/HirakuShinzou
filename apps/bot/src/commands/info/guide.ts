@@ -8,7 +8,7 @@ const options = {
 		choices: [
 			{ name: "Introduction", value: "introduction" },
 			{ name: "Prompting", value: "prompting" },
-		],
+		] as const,
 		required: true,
 	}),
 };
@@ -20,7 +20,7 @@ const options = {
 @Options(options)
 export default class ImageGuideCommand extends SubCommand {
 	async run(ctx: CommandContext<typeof options, "prepare">) {
-		const section = ctx.options.section as "introduction" | "prompting";
+		const section = ctx.options.section;
 
 		const user = ctx.author;
 		const lang = ctx.metadata.prepare.lang.commands.info.guide;

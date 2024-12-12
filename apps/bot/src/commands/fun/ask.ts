@@ -1,18 +1,16 @@
-import { CommandContext, Declare, Options, SubCommand, createStringOption } from "seyfert";
-import { constants } from "../../lib/constants";
-import { createChatCompletion } from "../../lib/scripts/createChatCompletion";
 import { UserService } from "@repo/database";
 import { inject } from "inversify";
+import { CommandContext, Declare, Options, SubCommand, createStringOption } from "seyfert";
 import { Embed } from "seyfert/lib/builders";
+import { constants } from "../../lib/constants";
+import { createChatCompletion } from "../../lib/scripts/createChatCompletion";
 
 const options = {
 	question: createStringOption({
-		name: "question",
 		description: "The question to ask",
 		required: true,
 	}),
 	model: createStringOption({
-		name: "model",
 		description: "The model to use",
 		required: false,
 		choices: [
@@ -23,7 +21,7 @@ const options = {
 				name: "GPT 4 Turbo Vision",
 				value: "OPENAI-URL_gpt-4-vision-preview",
 			},
-		],
+		] as const,
 	}),
 };
 

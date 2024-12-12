@@ -1,4 +1,4 @@
-import { createEvent, Guild } from "seyfert";
+import { Guild, createEvent } from "seyfert";
 import { Embed } from "seyfert/lib/builders";
 
 export default createEvent<"guildDelete">({

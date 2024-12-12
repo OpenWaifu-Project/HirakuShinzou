@@ -1,3 +1,5 @@
+import { UserService } from "@repo/database";
+import { inject } from "inversify";
 import {
 	CommandContext,
 	Declare,
@@ -9,11 +11,9 @@ import {
 	createStringOption,
 } from "seyfert";
 import { ImageModels } from "../../../lib/constants";
-import { inject } from "inversify";
-import { UserService } from "@repo/database";
-import { preHandleImageGen } from "../../../lib/scripts/preHandleImageGen";
 import { ImageProducer } from "../../../lib/jobs/image/image.producer";
 import { samplers } from "../../../lib/jobs/image/shared";
+import { preHandleImageGen } from "../../../lib/scripts/preHandleImageGen";
 
 export const options = {
 	content: createStringOption({
@@ -27,7 +27,7 @@ export const options = {
 			{ name: "Portrait", value: "768x1024" },
 			{ name: "Landscape", value: "1024x768" },
 			{ name: "Square", value: "1024x1024" },
-		],
+		] as const,
 	}),
 	model: createStringOption({
 		description: "Model to use for the image generation",
@@ -46,7 +46,7 @@ export const options = {
 				name: "DynaVision XL (Stylized 3D)",
 				value: "dynavisionXL_0411.safetensors [c39cc051]",
 			},
-		],
+		] as const,
 	}),
 	sampler: createStringOption({
 		description: "Sampler to use for the image generation",
@@ -58,7 +58,7 @@ export const options = {
 			{ name: "DPM++ SDE", value: "DPM++ SDE" },
 			{ name: "DPM2 Karras", value: "DPM2 Karras" },
 			{ name: "DDIM", value: "DDIM" },
-		],
+		] as const,
 		required: false,
 	}),
 	steps: createNumberOption({
@@ -81,7 +81,7 @@ export const options = {
 			{ name: "Heavy (Hard Effect)", value: 0 },
 			{ name: "Light (Soft Effect)", value: 1 },
 			{ name: "None (No effect)", value: 2 },
-		],
+		] as const,
 		required: false,
 	}),
 };

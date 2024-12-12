@@ -1,9 +1,9 @@
+import { UserService } from "@repo/database";
+import { inject } from "inversify";
 import { CommandContext, Declare, Group, Options, SubCommand, createStringOption } from "seyfert";
 import { ImageModels } from "../../../lib/constants";
-import { inject } from "inversify";
-import { UserService } from "@repo/database";
-import { preHandleImageGen } from "../../../lib/scripts/preHandleImageGen";
 import { ImageProducer } from "../../../lib/jobs/image/image.producer";
+import { preHandleImageGen } from "../../../lib/scripts/preHandleImageGen";
 
 export const options = {
 	content: createStringOption({
@@ -27,7 +27,7 @@ export const options = {
 				name: "Dall-E 3 HD",
 				value: "dall-e-3_HD",
 			},
-		],
+		] as const,
 	}),
 	style: createStringOption({
 		description: "Style of the generated images (Dall-E 3 Only)",
@@ -35,7 +35,7 @@ export const options = {
 		choices: [
 			{ name: "Vivid (more hyper-real and dramatic images)", value: "vivid" },
 			{ name: "Natural (more natural, less hyper-real looking images)", value: "natural" },
-		],
+		] as const,
 	}),
 };
 
@@ -51,8 +51,8 @@ export default class ImageCommand extends SubCommand {
 
 	async run(ctx: CommandContext<typeof options, "prepare">) {
 		let prompt = ctx.options.content;
-		const model = ctx.options.model as "dall-e-2" | "dall-e-3" | "dall-e-3_HD";
-		const style = (ctx.options.style as "vivid" | "natural") ?? "vivid";
+		const model = ctx.options.model;
+		const style = ctx.options.style ?? "vivid";
 
 		const userData = ctx.metadata.prepare.user;
 		const lang = ctx.metadata.prepare.lang.commands.fun.image;

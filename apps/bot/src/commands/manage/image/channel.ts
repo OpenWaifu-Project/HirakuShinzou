@@ -1,6 +1,6 @@
-import { CommandContext, Declare, Group, Options, SubCommand, createChannelOption, createStringOption } from "seyfert";
-import { inject } from "inversify";
 import { GuildService } from "@repo/database";
+import { inject } from "inversify";
+import { CommandContext, Declare, Group, Options, SubCommand, createChannelOption, createStringOption } from "seyfert";
 
 const option = {
 	status: createStringOption({
@@ -9,7 +9,7 @@ const option = {
 		choices: [
 			{ name: "Enabled", value: "on" },
 			{ name: "Disabled", value: "off" },
-		],
+		] as const,
 	}),
 	channel: createChannelOption({
 		description: "The channel to set",
@@ -28,7 +28,7 @@ export default class ChannelCommand extends SubCommand {
 
 	async run(ctx: CommandContext<typeof option, "prepare">) {
 		const channel = ctx.options.channel;
-		const status = ctx.options.status as "on" | "off";
+		const status = ctx.options.status;
 		const lang = ctx.metadata.prepare.lang.commands.manage.image.channel;
 		if (status === "on" && !channel) {
 			return await ctx.editOrReply({

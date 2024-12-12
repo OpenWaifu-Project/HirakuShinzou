@@ -43,11 +43,7 @@
 		}
 	},
 	"files": {
-		"ignore": [
-			"**/node_modules/**"
-		],
-		"include": [
-			"**/*.ts"
-		]
+		"ignore": ["**/node_modules/**"],
+		"include": ["**/*.ts"]
 	}
 }

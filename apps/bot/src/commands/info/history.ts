@@ -1,7 +1,7 @@
-import { type CommandContext, Declare, Options, SubCommand, createNumberOption, createStringOption } from "seyfert";
-import moment from "moment";
 import { ImageHistoryService } from "@repo/database";
 import { inject } from "inversify";
+import moment from "moment";
+import { type CommandContext, Declare, Options, SubCommand, createNumberOption, createStringOption } from "seyfert";
 import { ActionRow, Button, Embed } from "seyfert/lib/builders";
 import { ButtonStyle } from "seyfert/lib/types";
 import { ImageModels } from "../../lib/constants";
@@ -31,7 +31,7 @@ const options = {
 		choices: [
 			{ name: "Generate", value: "generate" },
 			{ name: "Image to Image", value: "img2img" },
-		],
+		] as const,
 	}),
 };
 

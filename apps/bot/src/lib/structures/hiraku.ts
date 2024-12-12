@@ -1,10 +1,10 @@
-import type defaultLang from "../../languages/en";
-import { injectable } from "inversify";
-import { type ParseLocales, Client, type ParseMiddlewares, type ParseClient } from "seyfert";
-import type { allMiddlewares } from "../../middlewares";
-import { container } from "../../inversify.config";
-import { Logger } from "@repo/logger";
 import { Papr } from "@repo/database";
+import { Logger } from "@repo/logger";
+import { injectable } from "inversify";
+import { Client, type ParseClient, type ParseLocales, type ParseMiddlewares } from "seyfert";
+import { container } from "../../inversify.config";
+import type defaultLang from "../../languages/en";
+import type { allMiddlewares } from "../../middlewares";
 
 @injectable()
 class Hiraku extends Client {
@@ -35,6 +35,19 @@ class Hiraku extends Client {
 			};
 		}
 
+		this.setServices({
+			cache: {
+				disabledCache: {
+					messages: true,
+					stickers: true,
+					emojis: true,
+					bans: true,
+					presences: true,
+					stageInstances: true,
+					voiceStates: true,
+				},
+			},
+		});
 		await this.start();
 		await this.uploadCommands();
 		container.get(Papr).start(process.env.MONGO_URI);

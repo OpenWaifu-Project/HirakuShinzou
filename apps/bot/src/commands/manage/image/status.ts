@@ -1,6 +1,6 @@
-import { CommandContext, Declare, Group, Options, SubCommand, createStringOption } from "seyfert";
-import { inject } from "inversify";
 import { GuildService } from "@repo/database";
+import { inject } from "inversify";
+import { CommandContext, Declare, Group, Options, SubCommand, createStringOption } from "seyfert";
 
 const option = {
 	status: createStringOption({
@@ -9,7 +9,7 @@ const option = {
 		choices: [
 			{ name: "Enabled", value: "on" },
 			{ name: "Disabled", value: "off" },
-		],
+		] as const,
 	}),
 };
 
@@ -23,7 +23,7 @@ export default class StatusCommand extends SubCommand {
 	@inject(GuildService) private readonly guildService!: GuildService;
 
 	async run(ctx: CommandContext<typeof option, "prepare">) {
-		const status = ctx.options.status as "on" | "off";
+		const status = ctx.options.status;
 		const lang = ctx.metadata.prepare.lang.commands.manage.image.status;
 
 		await this.guildService.updateGuildSettings(ctx.guildId!, {

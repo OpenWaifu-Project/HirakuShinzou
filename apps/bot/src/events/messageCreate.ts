@@ -1,13 +1,13 @@
+import { Content } from "@google/generative-ai";
+import { inject, injectable } from "inversify";
 import { UsingClient } from "seyfert";
+import { ClientDataEvent, ClientEvent, EventContext } from "seyfert/lib/events";
+import { Message } from "seyfert/lib/structures";
+import { container } from "../inversify.config";
 import { constants } from "../lib/constants";
 import { createGeminiCompletion, createGeminiImage } from "../lib/scripts/createCompletion";
-import { clean, formatMessage } from "../lib/utils/functions";
-import { ClientEvent, ClientDataEvent, EventContext } from "seyfert/lib/events";
-import { Message } from "seyfert/lib/structures";
-import { inject, injectable } from "inversify";
 import { RedisClient } from "../lib/structures/redis";
-import { container } from "../inversify.config";
-import { Content } from "@google/generative-ai";
+import { clean, formatMessage } from "../lib/utils/functions";
 
 const chatCooldown = new Set();
 
@@ -77,45 +77,48 @@ class MessageCreateEvent implements ClientEvent {
 	async chatHandle(message: Message, client: UsingClient) {
 		if (chatCooldown.has(message.author.id)) return;
 		chatCooldown.add(message.author.id);
+		try {
+			await client.channels.typing(message.channelId);
+			const history = await this.redis.get(`chat:${message.guildId}`);
+			const guildHistory = history ? JSON.parse(history) : INIT_CONTENT(message.author.username);
 
-		await client.channels.typing(message.channelId);
-		const history = await this.redis.get(`chat:${message.guildId}`);
-		const guildHistory = history ? JSON.parse(history) : INIT_CONTENT(message.author.username);
+			const guildHistoryObject: Content = {
+				role: "user",
+				parts: [
+					{
+						text: await formatMessage(message, client),
+					},
+				],
+			};
 
-		const guildHistoryObject: Content = {
-			role: "user",
-			parts: [
-				{
-					text: await formatMessage(message, client),
-				},
-			],
-		};
+			// If the message has attachments, we'll create send the image to the image completion API.
+			const res =
+				message.attachments.length > 0
+					? await createGeminiImage(message.attachments, message.content)
+					: await createGeminiCompletion(guildHistory, guildHistoryObject);
 
-		// If the message has attachments, we'll create send the image to the image completion API.
-		const res =
-			message.attachments.length > 0
-				? await createGeminiImage(message.attachments, message.content)
-				: await createGeminiCompletion(guildHistory, guildHistoryObject);
+			await message.reply({
+				content: res.length ? res : "Sorry, I'm having trouble understanding you. Could you try again?",
+				allowed_mentions: { roles: [] },
+			});
 
-		await message.reply({
-			content: res.length ? res : "Sorry, I'm having trouble understanding you. Could you try again?",
-			allowed_mentions: { roles: [] },
-		});
+			guildHistory.push(guildHistoryObject, {
+				role: "model",
+				parts: [
+					{
+						text: `Hiraku Shinzou: ${res}`,
+					},
+				],
+			});
 
-		guildHistory.push(guildHistoryObject, {
-			role: "model",
-			parts: [
-				{
-					text: `Hiraku Shinzou: ${res}`,
-				},
-			],
-		});
+			if (guildHistory.length > 24) {
+				guildHistory.splice(2, 2);
+			}
 
-		if (guildHistory.length > 24) {
-			guildHistory.splice(2, 2);
+			await this.redis.set(`chat:${message.guildId}`, JSON.stringify(guildHistory));
+		} catch (e) {
+			client.logger.error(e);
 		}
-
-		await this.redis.set(`chat:${message.guildId}`, JSON.stringify(guildHistory));
 		setTimeout(() => chatCooldown.delete(message.author.id), 3000); // 3 seconds cooldown
 	}
 }

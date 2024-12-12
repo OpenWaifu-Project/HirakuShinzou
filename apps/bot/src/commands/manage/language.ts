@@ -1,6 +1,6 @@
-import { CommandContext, Declare, Options, SubCommand, createStringOption } from "seyfert";
 import { GuildService } from "@repo/database";
 import { inject } from "inversify";
+import { CommandContext, Declare, Options, SubCommand, createStringOption } from "seyfert";
 
 const options = {
 	lang: createStringOption({
@@ -9,7 +9,7 @@ const options = {
 		choices: [
 			{ name: "English", value: "en" },
 			{ name: "Spanish", value: "es" },
-		],
+		] as const,
 	}),
 };
 
@@ -22,7 +22,7 @@ export default class LanguageCommand extends SubCommand {
 	@inject(GuildService) private readonly guildService!: GuildService;
 
 	async run(ctx: CommandContext<typeof options>) {
-		const language = ctx.options.lang as "en" | "es";
+		const language = ctx.options.lang;
 		const lang = ctx.t.get(language);
 
 		await this.guildService.updateGuildSettings(ctx.guildId!, {

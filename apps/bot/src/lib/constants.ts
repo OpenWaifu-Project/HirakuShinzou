@@ -148,4 +148,4 @@ export const ImageModels = {
 		allowedTiers: ["Tier III"],
 		name: "Dall-E 3 HD",
 	},
-};
+} as const;

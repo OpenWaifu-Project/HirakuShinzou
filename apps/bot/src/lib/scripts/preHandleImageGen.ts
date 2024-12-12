@@ -1,8 +1,8 @@
 import { ActionRow, Button, type CommandContext, Embed } from "seyfert";
+import { EmbedColors } from "seyfert/lib/common";
+import { ButtonStyle } from "seyfert/lib/types";
 import { ImageModels } from "../constants";
 import { checkModeration } from "./moderation";
-import { ButtonStyle } from "seyfert/lib/types";
-import { EmbedColors } from "seyfert/lib/common";
 
 /**
  * TODO: Improve this function, nejire code detected
@@ -58,7 +58,7 @@ export const preHandleImageGen = async (
 		return false;
 	}
 
-	if (modelInfo.allowedTiers.length && modelInfo.allowedTiers.includes(userData.membership.plan)) {
+	if (modelInfo.allowedTiers.length && (modelInfo.allowedTiers as string[]).includes(userData.membership.plan)) {
 		await ctx.editOrReply({
 			content: lang.insufficentMembership,
 		});

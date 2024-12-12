@@ -69,8 +69,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2
       seyfert:
-        specifier: github:tiramisulabs/seyfert
-        version: https://codeload.github.com/tiramisulabs/seyfert/tar.gz/f7c8b437e96d7773a95d2f88d2ad0c6d1e32f232
+        specifier: https://pkg.pr.new/tiramisulabs/seyfert@305
+        version: https://pkg.pr.new/tiramisulabs/seyfert@305
     devDependencies:
       '@repo/logger':
         specifier: workspace:*
@@ -753,9 +753,9 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  seyfert@https://codeload.github.com/tiramisulabs/seyfert/tar.gz/f7c8b437e96d7773a95d2f88d2ad0c6d1e32f232:
-    resolution: {tarball: https://codeload.github.com/tiramisulabs/seyfert/tar.gz/f7c8b437e96d7773a95d2f88d2ad0c6d1e32f232}
-    version: 2.0.0
+  seyfert@https://pkg.pr.new/tiramisulabs/seyfert@305:
+    resolution: {tarball: https://pkg.pr.new/tiramisulabs/seyfert@305}
+    version: 2.1.0
 
   shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}
@@ -1449,7 +1449,7 @@ snapshots:
 
   semver@7.6.3: {}
 
-  seyfert@https://codeload.github.com/tiramisulabs/seyfert/tar.gz/f7c8b437e96d7773a95d2f88d2ad0c6d1e32f232: {}
+  seyfert@https://pkg.pr.new/tiramisulabs/seyfert@305: {}
 
   shebang-command@2.0.0:
     dependencies:
